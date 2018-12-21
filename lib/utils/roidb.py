@@ -10,6 +10,7 @@ roidb
 basic format [image_index]['boxes', 'gt_classes', 'gt_overlaps', 'flipped']
 extended ['image', 'max_classes', 'max_overlaps', 'bbox_targets']
 """
+from __future__ import print_function
 
 import cv2
 import numpy as np
@@ -24,7 +25,7 @@ def prepare_roidb(imdb, roidb, cfg):
     :param roidb: roidb
     :return: None
     """
-    print 'prepare roidb'
+    print('prepare roidb')
     for i in range(len(roidb)):  # image_index
         roidb[i]['image'] = imdb.image_path_from_index(imdb.image_set_index[i])
         if cfg.TRAIN.ASPECT_GROUPING:

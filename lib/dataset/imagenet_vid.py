@@ -12,6 +12,7 @@ and transform them into IMDB format. Selective search is used for proposals, see
 function. Results are written as the ImageNet VID format. Evaluation is based on mAP
 criterion.
 """
+from __future__ import print_function
 
 import cPickle
 import cv2
@@ -57,7 +58,7 @@ class ImageNetVID(IMDB):
         self.num_classes = len(self.classes)
         self.load_image_set_index()
         self.num_images = len(self.image_set_index)
-        print 'num_images', self.num_images
+        print('num_images', self.num_images)
 
     def load_image_set_index(self):
         """
@@ -102,13 +103,13 @@ class ImageNetVID(IMDB):
         if os.path.exists(cache_file):
             with open(cache_file, 'rb') as fid:
                 roidb = cPickle.load(fid)
-            print '{} gt roidb loaded from {}'.format(self.name, cache_file)
+            print('{} gt roidb loaded from {}'.format(self.name, cache_file))
             return roidb
 
         gt_roidb = [self.load_vid_annotation(index) for index in range(0, len(self.image_set_index))]
         with open(cache_file, 'wb') as fid:
             cPickle.dump(gt_roidb, fid, cPickle.HIGHEST_PROTOCOL)
-        print 'wrote gt roidb to {}'.format(cache_file)
+        print('wrote gt roidb to {}'.format(cache_file))
 
         return gt_roidb
 
@@ -158,7 +159,7 @@ class ImageNetVID(IMDB):
             y1 = np.maximum(float(bbox.find('ymin').text), 0)
             x2 = np.minimum(float(bbox.find('xmax').text), roi_rec['width']-1)
             y2 = np.minimum(float(bbox.find('ymax').text), roi_rec['height']-1)
-            if not class_to_index.has_key(obj.find('name').text):
+            if obj.find('name').text not in class_to_index:
                 continue
             valid_objs[ix] = True
             cls = class_to_index[obj.find('name').text.lower().strip()]
@@ -226,7 +227,7 @@ class ImageNetVID(IMDB):
         :param all_boxes: boxes to be processed [bbox, confidence]
         :return: None
         """
-        print 'Writing {} ImageNetVID results file'.format('all')
+        print('Writing {} ImageNetVID results file'.format('all'))
         filename = self.get_result_file_template().format('all')
         with open(filename, 'wt') as f:
             for im_ind, index in enumerate(self.image_set_index):
@@ -248,7 +249,7 @@ class ImageNetVID(IMDB):
         :param all_boxes: boxes to be processed [bbox, confidence]
         :return: None
         """
-        print 'Writing {} ImageNetVID results file'.format('all')
+        print('Writing {} ImageNetVID results file'.format('all'))
         filename = self.get_result_file_template().format('all')
         with open(filename, 'wt') as f:
             for detection in detections:

@@ -8,6 +8,7 @@
 """
 given a imagenet vid imdb, compute mAP
 """
+from __future__ import print_function
 
 import numpy as np
 import os
@@ -89,8 +90,8 @@ def vid_eval(detpath, annopath, imageset_file, classname_map, annocache, ovthres
         for ind, image_filename in enumerate(img_basenames):
             recs.append(parse_vid_rec(annopath.format('VID/' + image_filename), classhash, gt_img_ids[ind]))
             if ind % 100 == 0:
-                print 'reading annotations for {:d}/{:d}'.format(ind + 1, len(img_basenames))
-        print 'saving annotations cache to {:s}'.format(annocache)
+                print('reading annotations for {:d}/{:d}'.format(ind + 1, len(img_basenames)))
+        print('saving annotations cache to {:s}'.format(annocache))
         with open(annocache, 'wb') as f:
             cPickle.dump(recs, f, protocol=cPickle.HIGHEST_PROTOCOL)
     else:

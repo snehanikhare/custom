@@ -1,3 +1,4 @@
+from __future__ import print_function
 # --------------------------------------------------------
 # Deep Feature Flow
 # Copyright (c) 2017 Microsoft
@@ -93,7 +94,7 @@ def train_net(args, ctx, pretrained, pretrained_flow, epoch, prefix, begin_epoch
                       ('eq_flag', (1,))]
     max_data_shape, max_label_shape = train_data.infer_shape(max_data_shape)
     max_data_shape.append(('gt_boxes', (config.TRAIN.BATCH_IMAGES, 100, 5)))
-    print 'providing maximum shape', max_data_shape, max_label_shape
+    print('providing maximum shape', max_data_shape, max_label_shape)
 
     data_shape_dict = dict(train_data.provide_data_single + train_data.provide_label_single)
     pprint.pprint(data_shape_dict)
@@ -101,7 +102,7 @@ def train_net(args, ctx, pretrained, pretrained_flow, epoch, prefix, begin_epoch
 
     # load and initialize params
     if config.TRAIN.RESUME:
-        print('continue training from ', begin_epoch)
+        print(('continue training from ', begin_epoch))
         arg_params, aux_params = load_param(prefix, begin_epoch, convert=True)
     else:
         arg_params, aux_params = load_param(pretrained, epoch, convert=True)
@@ -149,7 +150,7 @@ def train_net(args, ctx, pretrained, pretrained_flow, epoch, prefix, begin_epoch
     lr_epoch_diff = [epoch - begin_epoch for epoch in lr_epoch if epoch > begin_epoch]
     lr = base_lr * (lr_factor ** (len(lr_epoch) - len(lr_epoch_diff)))
     lr_iters = [int(epoch * len(roidb) / batch_size) for epoch in lr_epoch_diff]
-    print('lr', lr, 'lr_epoch_diff', lr_epoch_diff, 'lr_iters', lr_iters)
+    print(('lr', lr, 'lr_epoch_diff', lr_epoch_diff, 'lr_iters', lr_iters))
     lr_scheduler = WarmupMultiFactorScheduler(lr_iters, lr_factor, config.TRAIN.warmup, config.TRAIN.warmup_lr, config.TRAIN.warmup_step)
     # optimizer
     optimizer_params = {'momentum': config.TRAIN.momentum,
@@ -170,7 +171,7 @@ def train_net(args, ctx, pretrained, pretrained_flow, epoch, prefix, begin_epoch
 
 
 def main():
-    print('Called with argument:', args)
+    print(('Called with argument:', args))
     ctx = [mx.gpu(int(i)) for i in config.gpus.split(',')]
     train_net(args, ctx, config.network.pretrained, config.network.pretrained_flow, config.network.pretrained_epoch, config.TRAIN.model_prefix,
               config.TRAIN.begin_epoch, config.TRAIN.end_epoch, config.TRAIN.lr, config.TRAIN.lr_step)

@@ -1,3 +1,4 @@
+from __future__ import print_function
 # --------------------------------------------------------
 # Deep Feature Flow
 # Copyright (c) 2017 Microsoft
@@ -116,7 +117,7 @@ def main():
             data_batch.provide_data[0][-1] = ('feat_key', feat.shape)
             scores, boxes, data_dict, _ = im_detect(cur_predictor, data_batch, data_names, scales, config)
 
-    print "warmup done"
+    print("warmup done")
     # test
     time = 0
     count = 0
@@ -135,7 +136,7 @@ def main():
             scores, boxes, data_dict, _ = im_detect(cur_predictor, data_batch, data_names, scales, config)
         time += toc()
         count += 1
-        print 'testing {} {:.4f}s'.format(im_name, time/count)
+        print('testing {} {:.4f}s'.format(im_name, time/count))
 
         boxes = boxes[0].astype('f')
         scores = scores[0].astype('f')
@@ -156,7 +157,7 @@ def main():
         _, filename = os.path.split(im_name)
         cv2.imwrite(output_dir + filename,out_im)
 
-    print 'done'
+    print('done')
 
 if __name__ == '__main__':
     main()

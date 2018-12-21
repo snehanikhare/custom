@@ -1,3 +1,4 @@
+from __future__ import print_function
 # --------------------------------------------------------
 # Deep Feature Flow
 # Copyright (c) 2017 Microsoft
@@ -48,7 +49,7 @@ from utils.create_logger import create_logger
 
 def main():
     ctx = [mx.gpu(int(i)) for i in config.gpus.split(',')]
-    print args
+    print(args)
 
     logger, final_output_path = create_logger(config.output_path, args.cfg, config.dataset.test_image_set)
 
